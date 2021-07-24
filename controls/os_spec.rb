@@ -241,27 +241,27 @@ control 'os-11' do
   end
 end
 
-control 'os-12' do
-  impact 1.0
-  title 'Detect vulnerabilities in the cpu-vulnerability-directory'
-  desc 'Check for known cpu vulnerabilities described here: https://www.kernel.org/doc/html/v5.6/admin-guide/hw-vuln/index.html'
-  only_if { !container_execution }
-
-  if file(cpuvulndir).exist?
-    describe file(cpuvulndir) do
-      it { should be_directory }
-    end
-
-    loaded_files = command("find #{cpuvulndir} -type f -maxdepth 1").stdout.split(/\n/).map(&:strip).find_all { |vulnfiles| !vulnfiles.empty? }
-
-    loaded_files.each do |vulnfile|
-      describe file(vulnfile) do
-        its(:content) { should_not match 'vulnerable' }
-        its(:content) { should_not match 'Vulnerable' }
-      end
-    end
-  end
-end
+#control 'os-12' do
+#  impact 1.0
+#  title 'Detect vulnerabilities in the cpu-vulnerability-directory'
+#  desc 'Check for known cpu vulnerabilities described here: https://www.kernel.org/doc/html/v5.6/admin-guide/hw-vuln/index.html'
+#  only_if { !container_execution }
+#
+#  if file(cpuvulndir).exist?
+#    describe file(cpuvulndir) do
+#      it { should be_directory }
+#    end
+#
+#    loaded_files = command("find #{cpuvulndir} -type f -maxdepth 1").stdout.split(/\n/).map(&:strip).find_all { |vulnfiles| !vulnfiles.empty? }
+#
+#    loaded_files.each do |vulnfile|
+#      describe file(vulnfile) do
+#        its(:content) { should_not match 'vulnerable' }
+#        its(:content) { should_not match 'Vulnerable' }
+#      end
+#    end
+#  end
+#end
 
 control 'os-13' do
   impact 1.0
